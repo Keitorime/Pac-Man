@@ -5,6 +5,7 @@
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+.gitignore
 
 # Windows Zone Identifier
 *Zone.Identifier
