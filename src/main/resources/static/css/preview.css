@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../image/space.jpg'); /* Замініть 'image/space.jpg' на шлях до вашого зображення */
+    background-size: cover; /* Розмір зображення буде змінений таким чином, щоб воно повністю покривало фон */
+    background-position: center;
+    position: relative;
+}
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px; /* Додатково */
+    position: absolute; /* Додатково */
+    background-color: #FFDB5C;
+}
+#Play {
+    top: 75%; /* Розташувати кнопку на половині висоти */
+    left: 50%; /* Розташувати кнопку на половині ширини */
+    transform: translate(-50%, -50%); /* Центрувати кнопку */
+}
+#Service {
+    bottom: 10px; /* Знизу */
+    right: 10px; /* Справа */
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('image/space.jpg'); /* Додайте зображення на задній фон */
+            background-size: cover; /* Масштабування зображення, щоб воно заповнило весь фон */
+            background-repeat: no-repeat; /* Заборона повторення зображення */
+        }
+
+        #gameBackground {
+            width: 700px; /* Задайте розмір обмеженого поля тут */
+            height: 600px; /* Задайте розмір обмеженого поля тут */
+            border: 3px solid black; /* Додайте рамку для виділення обмеженого поля */
+            position: relative; /* Встановлюємо позицію як relative для позиціонування монеток */
+            background-color: #0E46A3; /* Додайте прозорий колір для поля гри */
+        }
+
+        #gameField {
+            width: 100%; /* Задайте бажаний розмір квадрата з монетками */
+            height: 100%; /* Задайте бажаний розмір квадрата з монетками */
+            position: absolute; /* Встановлюємо абсолютну позицію для знаходження в середині gameBackground */
+        }
+
+        .coin {
+            width: 25px;
+            height: 25px;
+            background-image: url('image/star.png');
+            background-size: cover; /* Заповнюється весь контейнер */
+            position: absolute;
+        }
+
+        .mob {
+            width: 50px;
+            height: 50px;
+            background-image: url('image/monster.png');
+            background-size: cover; /* Заповнюється весь контейнер */
+            position: absolute;
+        }
+
+        #hero {
+            top: 15%; /* Встановлено відсотки для положення вгорі сторінки */
+            left: 50%; /* Встановлено відсотки для положення по горизонталі по середині сторінки */
+            transform: translate(-50%, -50%); /* Ця команда центрує героя відносно його власних розмірів */
+            width: 35px;
+            height: 35px;
+            background-image: url('image/hero.png');
+            background-size: cover;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1; /* Встановлено значення з індексу для героя */
+
+        }
+        #scoreboard {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+        }
+        .riddle-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border: 2px solid #000000;
+        }
+    </style>
+</head>
+<body>
+<div id="scoreboard">
+    <p>Your money: <span id="coinCount">0</span></p>
+    <p>Defeated monsters: <span id="defeatedCount">0</span></p>
+</div>
+<div id="hero"></div>
+<div id="gameBackground">
+    <div id="gameField"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Підключення Axios -->
+<script src="Easy.js"></script> <!-- Підключення вашого JavaScript файлу -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var gameField = document.getElementById("gameField");
+        addCoinsToPage(gameField.clientWidth, gameField.clientHeight);
+        generateMobs();
+    });
+</script>
+
+</body>
+</html>

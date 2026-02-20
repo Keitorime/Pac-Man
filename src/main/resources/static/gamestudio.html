@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Rating Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 20px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2C4E80;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: aliceblue;
+        }
+        .average-rating-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .rating-text {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .score-container,
+        .comment-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+        }
+        .comment-heading {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .comment-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .comment-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+        .comment-item p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+<div class="average-rating-container" id="averageRating">
+    <div class="rating-text"></div>
+</div>
+<button id="commentbutton">Comments</button>
+<div id="commentContainer" class="comment-container">
+    <h2 class="comment-heading">Comments</h2>
+    <ul class="comment-list"></ul>
+</div>
+<button id="scorebutton">Score</button>
+<div id="scoreContainer" class="score-container"></div>
+<script>
+    function App() {
+        return null;
+    }
+
+    ReactDOM.render(
+        React.createElement(App),
+        document.getElementById('root')
+    );
+
+    axios.get('/api/rating/average/Pac-Man')
+        .then(response => {
+            const averageRatingContainer = document.querySelector(".rating-text");
+            averageRatingContainer.textContent = `Average Rating: ${response.data}`;
+        })
+        .catch(error => {
+            console.error('Error fetching average rating: ', error);
+        });
+
+    document.getElementById("commentbutton").addEventListener("click", function() {
+        axios.get('/api/comment/Pac-Man')
+            .then(response => {
+                const comments = response.data;
+                const commentContainer = document.querySelector(".comment-list");
+                commentContainer.innerHTML = ""; // Очищаємо попередні коментарі
+                comments.forEach(comment => {
+                    const commentItem = document.createElement("li");
+                    commentItem.classList.add("comment-item");
+                    commentItem.innerHTML = `<p>${comment.playerName} - ${comment.commentText}</p>`;
+                    commentContainer.appendChild(commentItem);
+                });
+                document.getElementById("commentContainer").style.display = "block";
+                document.getElementById("scoreContainer").style.display = "none";
+            })
+            .catch(error => {
+                console.error('Error fetching comment data: ', error);
+            });
+    });
+
+    document.getElementById("scorebutton").addEventListener("click", function() {
+        axios.get('/api/score/Pac-Man')
+            .then(response => {
+                const scores = response.data;
+                const scoreContainer = document.getElementById("scoreContainer");
+                let scoreHTML = "<h2>Score</h2><ul>";
+                scores.forEach(score => {
+                    scoreHTML += `<li>${score.player} - ${score.points}</li>`;
+                });
+                scoreHTML += "</ul>";
+                scoreContainer.innerHTML = scoreHTML;
+                scoreContainer.style.display = "block";
+                document.getElementById("commentContainer").style.display = "none";
+            })
+            .catch(error => {
+                console.error('Error fetching score data: ', error);
+            });
+    });
+</script>
+</body>
+</html>
